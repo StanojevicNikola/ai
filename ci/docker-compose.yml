@@ -1,0 +1,49 @@
+version: "3"
+services:
+  base:
+    build:
+      context: ..
+      dockerfile: ci/Dockerfile.base
+      args:
+        NPM_AUTH_TOKEN: "${NPM_AUTH_TOKEN}"
+    image: ${REGISTRY_HOST}/${APP_NAME}:base-${BASE_IMAGE_VERSION}
+  app:
+    build:
+      context: ..
+      dockerfile: ci/Dockerfile
+      args:
+        REGISTRY_HOST: "${REGISTRY_HOST}"
+        APP_NAME: "${APP_NAME}"
+        BASE_IMAGE_VERSION: "${BASE_IMAGE_VERSION}"
+        NPM_AUTH_TOKEN: "${NPM_AUTH_TOKEN}"
+    image: "${REGISTRY_HOST}/${APP_NAME}:${APP_VERSION}"
+    container_name: "${APP_NAME}-${BRANCH_NAME}-${BUILD_NUMBER}-main-${GIT_COMMIT}"
+    entrypoint: []
+    command: ["sleep","1800"]
+    environment:
+      ENV: DEVELOPMENT
+
+      HOST: 0.0.0.0
+      PORT: 3002
+
+      # POSTGRESQL
+      POSTGRES_HOST: 127.0.0.1
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: fb
+      POSTGRES_PASSWORD: dummy
+      POSTGRES_DATABASE: footballerista
+
+      # FIREBASE
+      FIREBASE_SERVICE_ACCOUNT: 
+      FIREBASE_DATABASE_URL: https://footballerista-auth.firebaseio.com
+
+      JENKINS_URL: "${JENKINS_URL}"
+      BRANCH_NAME: "${BRANCH_NAME}"
+      BUILD_NUMBER: "${BUILD_NUMBER}"
+      BUILD_URL: "${BUILD_URL}"
+      GIT_BRANCH: "${BRANCH_NAME}"
+      GIT_COMMIT: "${GIT_COMMIT}"
+networks:
+  default:
+    external:
+      name: ${APP_NAME}_${BRANCH_NAME}_${BUILD_NUMBER}

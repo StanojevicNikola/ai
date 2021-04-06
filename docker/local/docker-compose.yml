@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  fbl-admin-service:
+    build:
+      context: ../..
+      dockerfile: ./docker/local/Dockerfile.dev
+      args:
+        NPM_AUTH_TOKEN:
+    container_name: fbl-admin-service
+    volumes:
+      - ../..:/home/node/app
+    working_dir: /home/node/app
+    command: /bin/sh "/home/node/temp_cashe/entrypoint.sh"
+    ports:
+      - '3008:3008'
+
+networks:
+  default:
+    external:
+      name: footballerista-net

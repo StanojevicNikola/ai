@@ -1,0 +1,83 @@
+{
+  "name": "fbl-ai-service",
+  "version": "1.0.0",
+  "description": "Footballerista AI service",
+  "keywords": [
+    "loopback-application",
+    "loopback"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "build": "lb-tsc",
+    "build:watch": "lb-tsc --watch",
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "lint": "npm run prettier:check && npm run eslint",
+    "lint:fix": "npm run prettier:fix && npm run eslint:fix",
+    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\" \"**/*.md\"",
+    "prettier:check": "npm run prettier:cli -- --check",
+    "prettier:fix": "npm run prettier:cli -- --write",
+    "eslint": "lb-eslint --cache --report-unused-disable-directives .",
+    "eslint:fix": "npm run eslint -- --fix",
+    "pretest": "npm run clean && npm run build",
+    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
+    "prestart": "npm run build",
+    "start": "node -r source-map-support/register .",
+    "start:dev": "nodemon",
+    "docker:start:dev": "docker-compose -f docker/local/docker-compose.yml up"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "files": [
+    "README.md",
+    "index.js",
+    "index.d.ts",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ],
+  "dependencies": {
+    "@footballerista-llc/fbl-type-schema": "^1.0.15",
+    "@footballerista-llc/loopback-connector-firebase-auth": "^1.0.0",
+    "@loopback/authentication": "^4.2.5",
+    "@loopback/boot": "^2.3.1",
+    "@loopback/context": "^3.8.1",
+    "@loopback/core": "^2.7.0",
+    "@loopback/openapi-v3": "^3.4.1",
+    "@loopback/repository": "^2.5.1",
+    "@loopback/rest": "^5.0.1",
+    "@loopback/rest-explorer": "^2.2.2",
+    "@loopback/service-proxy": "^2.3.0",
+    "@tensorflow-models/toxicity": "^1.2.2",
+    "@tensorflow/tfjs": "^3.3.0",
+    "crypto-js": "^4.0.0",
+    "dd-trace": "^0.30.1",
+    "dotenv": "^8.2.0",
+    "form-data": "^3.0.0",
+    "jsbn": "^1.1.0",
+    "loopback-connector-rest": "^3.7.0"
+  },
+  "devDependencies": {
+    "@loopback/build": "^5.4.1",
+    "@loopback/eslint-config": "^7.0.1",
+    "@loopback/testlab": "^3.1.5",
+    "@types/crypto-js": "^3.1.47",
+    "@types/dotenv": "^8.2.0",
+    "@types/md5": "^2.2.1",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^10.17.21",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-eslint-plugin": "^2.2.1",
+    "eslint-plugin-mocha": "^7.0.0",
+    "mocha": "^7.1.2",
+    "nodemon": "^2.0.3",
+    "source-map-support": "^0.5.19",
+    "typescript": "~3.9.3"
+  }
+}
